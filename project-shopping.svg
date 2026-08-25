@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title">
+  <title id="title">Shopping Web App project</title>
+  <rect width="800" height="500" fill="#fbf7f0"/>
+  <path d="M250 170h330l-38 170H285z" fill="#fffdf9" stroke="#dc8fa2" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M220 125h55l25 215" fill="none" stroke="#bd687e" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="330" cy="390" r="25" fill="#dc8fa2"/>
+  <circle cx="500" cy="390" r="25" fill="#dc8fa2"/>
+  <rect x="325" y="205" width="180" height="22" rx="11" fill="#e5d3be"/>
+  <rect x="345" y="255" width="140" height="22" rx="11" fill="#f3ded3"/>
+</svg>
