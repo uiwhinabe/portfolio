@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import nailNutritionProducts from './assets/nail-nutrition-products.png'
 import './App.css'
 
 const skills = [
@@ -12,20 +13,32 @@ const skills = [
   { name: 'GitHub', description: '프로젝트를 공유하고 협업 과정을 관리합니다.', level: 70 },
 ]
 
+const nailVideo67Url = 'https://www.youtube.com/watch?v=wYMpIRX-Xxw'
+
 const projects = [
   {
-    title: 'React Portfolio',
-    description: 'React 컴포넌트로 구성한 반응형 개인 포트폴리오 웹사이트입니다.',
-    skills: ['React', 'Vite', 'CSS'],
-    image: '/project-portfolio.svg',
-    demo: null,
-    github: null,
+    title: '결담 | 스킨케어 브랜드 웹 프로젝트',
+    description: '스킨케어 브랜드 결담의 브랜드 기획부터 제품 콘텐츠와 웹페이지 디자인까지 제작한 프로젝트입니다.',
+    skills: ['Brand', 'Web Design', 'Figma', 'AI'],
+    image: '/결담 프로젝트 이미지.png',
+    demo: 'https://uiwhinabe.github.io/gyeoldam/',
+    github: '/GYEOLDAM기획안.pdf',
+    githubDownload: 'GYEOLDAM기획안.pdf',
+    demoLabel: '사이트 바로가기',
+    githubLabel: '기획안 PDF 다운로드',
   },
   {
-    title: 'Shopping Web App',
-    description: '상품 탐색과 장바구니 경험에 집중한 쇼핑 웹 애플리케이션입니다.',
+    title: '네일 영양제 AI 영상 콘텐츠',
+    description: '네일 영양제를 주제로 AI를 활용해 영상 콘셉트부터 이미지·영상 제작까지 진행한 콘텐츠 프로젝트입니다.',
     skills: ['React', 'JavaScript', 'CSS'],
-    image: '/project-shopping.svg',
+    image: nailNutritionProducts,
+    imageHref: nailVideo67Url,
+    imageLinkLabel: '네일 영양제 AI 영상 콘텐츠 67초 영상 보기 (새 탭)',
+    actions: [
+      { label: '67초 영상', href: nailVideo67Url },
+      { label: '31초 영상', href: 'https://youtu.be/vV0eQHRZJ4Q' },
+      { label: '기획안 PDF', href: null, download: true },
+    ],
     demo: null,
     github: null,
   },
@@ -146,7 +159,7 @@ function App() {
             <div className="hero-section__image-wrap">
               <img
                 className="hero-section__image"
-                src="/profile-placeholder.svg"
+                src="/프로필.jpg"
                 alt="박민경 프로필 이미지"
               />
             </div>
@@ -229,11 +242,27 @@ function App() {
             <div className="projects-grid">
               {projects.map((project) => (
                 <article className="project-card" key={project.title}>
-                  <img
-                    className="project-card__image"
-                    src={project.image}
-                    alt={`${project.title} 프로젝트 미리보기`}
-                  />
+                  {project.imageHref || project.demo ? (
+                    <a
+                      className={`project-card__image-link${project.imageHref ? ' project-card__image-link--video' : ''}`}
+                      href={project.imageHref || project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={project.imageLinkLabel || `${project.title} 사이트 바로가기`}
+                    >
+                      <img
+                        className="project-card__image"
+                        src={project.image}
+                        alt={`${project.title} 프로젝트 미리보기`}
+                      />
+                    </a>
+                  ) : (
+                    <img
+                      className="project-card__image"
+                      src={project.image}
+                      alt={`${project.title} 프로젝트 미리보기`}
+                    />
+                  )}
                   <div className="project-card__content">
                     <h3>{project.title}</h3>
                     <p>{project.description}</p>
@@ -242,7 +271,32 @@ function App() {
                         <li key={skill}>{skill}</li>
                       ))}
                     </ul>
-                    <div className="project-card__actions">
+                    <div className={`project-card__actions${project.actions ? ' project-card__actions--videos' : ''}`}>
+                      {project.actions ? project.actions.map((action) => (
+                        action.href ? (
+                          <a
+                            key={action.label}
+                            className="project-card__link"
+                            href={action.href}
+                            target={action.download ? undefined : '_blank'}
+                            rel={action.download ? undefined : 'noopener noreferrer'}
+                            download={action.download || undefined}
+                          >
+                            {action.label}
+                          </a>
+                        ) : (
+                          <span
+                            key={action.label}
+                            className="project-card__link project-card__link--disabled"
+                            aria-disabled="true"
+                            aria-label={`${action.label} — 추후 업로드 예정`}
+                            title="기획안 PDF는 추후 업로드 예정입니다."
+                          >
+                            {action.label}
+                          </span>
+                        )
+                      )) : (
+                        <>
                       {project.demo ? (
                         <a
                           className="project-card__link project-card__link--primary"
@@ -250,7 +304,7 @@ function App() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          프로젝트 보기
+                          {project.demoLabel || '프로젝트 보기'}
                         </a>
                       ) : (
                         <span
@@ -264,10 +318,18 @@ function App() {
                         <a
                           className="project-card__link"
                           href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target={project.githubDownload ? undefined : '_blank'}
+                          rel={project.githubDownload ? undefined : 'noopener noreferrer'}
+                          download={project.githubDownload || undefined}
+                          onClick={project.githubDownload && import.meta.env.BASE_URL !== '/' ? (event) => {
+                            event.preventDefault()
+                            const downloadLink = document.createElement('a')
+                            downloadLink.href = `${import.meta.env.BASE_URL}GYEOLDAM기획안.pdf`
+                            downloadLink.download = 'GYEOLDAM기획안.pdf'
+                            downloadLink.click()
+                          } : undefined}
                         >
-                          GitHub
+                          {project.githubLabel || 'GitHub'}
                         </a>
                       ) : (
                         <span
@@ -276,6 +338,8 @@ function App() {
                         >
                           GitHub 준비 중
                         </span>
+                      )}
+                        </>
                       )}
                     </div>
                   </div>

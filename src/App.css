@@ -488,6 +488,20 @@ section {
   object-fit: cover;
 }
 
+.project-card__image-link {
+  display: block;
+  cursor: pointer;
+}
+
+.project-card__image-link--video:hover .project-card__image {
+  filter: brightness(0.94);
+}
+
+.project-card__image-link--video:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: -3px;
+}
+
 .project-card__content {
   display: flex;
   flex: 1;
@@ -552,6 +566,12 @@ section {
   border-color: var(--color-primary);
   color: var(--color-primary-dark);
   transform: translateY(-1px);
+}
+
+.project-card__actions--videos .project-card__link {
+  flex: 1 0 auto;
+  padding-inline: 10px;
+  white-space: nowrap;
 }
 
 .project-card__link--primary {
